@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="{% static "/blog/favicon.ico" %}">
+    {% comment %} <script src="{% static 'basic.js' %}"></script> {% endcomment %}
     <title>{% block title %}Nvn's Blog{% endblock title %}</title>
     {% tailwind_css %}
 </head>
@@ -20,7 +21,7 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
                     </svg>
                 </button>
-                <div class="hidden w-full md:block md:w-auto bg-slate-400" id="navbar-default " >
+                <div class="hidden w-full md:block md:w-auto bg-slate-400" id="navbar-default" >
                         <ul class="font-medium flex flex-col  p-4 md:p-0 mt-4 border bg-slate-400 rounded-lg  md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0  " >
                             <li><a class="block py-2 px-3 bg-slate-400 rounded-sm  md:border-0 hover:text-slate-900 hover:scale-105 md:p-0 " href="{% url "stored-posts" %}">Stored Posts</a></li>
                             <li><a class="block py-2 px-3  bg-slate-400 rounded-sm  md:border-0 hover:text-slate-900 md:p-0 hover:scale-105" href="{% url "all-posts" %}">All Posts</a></li>
@@ -45,10 +46,11 @@
     {% block content %}    
     {% endblock content %}
     <script> 
-        const menulist=document.getElementById("navbar-default")
+        let menulist=document.getElementById( "navbar-default" )
+       
         function toggleMenu(){
                 menulist.classList.remove("hidden")
         }
-    </script>
+    </script>  
 </body>
 </html>
