@@ -10,6 +10,11 @@ sudo apt install python3-venv python3-dev python3-pip libpq-dev nginx    # check
 git clone https://your git repo
 cd your project folder
 
+#create and activate virtualenv either python3 or virtualenv
+pip3 install -r requirements.txt
+
+
+
 
 
 
