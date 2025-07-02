@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-2wx!2%7$yw5m#(0f7_81ppt&n+ni31_0uno(e1p9y6n$c@)i%s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -81,8 +81,12 @@ WSGI_APPLICATION = 'nvnblog.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgrespassword',
+        'HOST': 'database-1.c1gwqw8wybwe.ap-south-1.rds.amazonaws.com',  # Or the IP address/hostname of your PostgreSQL server
+        'PORT': '5432',           # Leave empty for default (5432), or specify if different
     }
 }
 
