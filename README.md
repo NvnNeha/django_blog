@@ -1,9 +1,11 @@
-This is my first website with django 
+This is my first website with django, here you can create account and write blog, also you can update, delete your post, you can comment to the post if you are busy or not have time to read post so you can click read later button and see in stored posts all read later blog.
 
-Here you can create account and write blog 
 
-Also you can update, delete your post  
+How to deploy your django app on ec2
 
-You can comment to the post 
+#first update and install basic packages
+sudo apt update
+sudo apt install python3-venv python3-dev python3-pip libpq-dev nginx    # chech pip3 --version
 
-If you are busy or not have time to read post so you can click read later button and see in stored posts all read later blog.
+
+
