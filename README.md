@@ -5,7 +5,12 @@ How to deploy your django app on ec2
 
 #first update and install basic packages
 sudo apt update
-sudo apt install python3-venv python3-dev python3-pip libpq-dev nginx    # chech pip3 --version
+sudo apt install python3-venv python3-dev python3-pip libpq-dev nginx    # check pip3 --version #libpq-dev is important
+
+git clone https://your git repo
+cd your project folder
+
+
 
 
 
