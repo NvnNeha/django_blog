@@ -85,7 +85,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgrespassword',
-        'HOST': 'database-1.c1gwqw8wybwe.ap-south-1.rds.amazonaws.com',  # Or the IP address/hostname of your PostgreSQL server
+        'HOST': 'mydatabase.c1gwqw8wybwe.ap-south-1.rds.amazonaws.com',  # Or the IP address/hostname of your PostgreSQL server
         'PORT': '5432',           # Leave empty for default (5432), or specify if different
     }
 }
