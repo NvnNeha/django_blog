@@ -7,7 +7,7 @@ How to deploy your django app on ec2
 sudo apt update
 sudo apt install python3-venv python3-dev python3-pip libpq-dev nginx    # check pip3 --version #libpq-dev is important
 
-git clone https://your git repo
+git clone https://yourgitrepolink
 cd your project folder
 
 #create and activate virtualenv either python3 or virtualenv
@@ -39,7 +39,7 @@ Requires=gunicorn.socket
 After=network.target
 
 [Service]
-User=sammy
+User=ubuntu
 Group=www-data
 WorkingDirectory=/home/ubuntu/django_blog
 ExecStart=/home/ubantu/django_blog/env/bin/gunicorn \
@@ -54,6 +54,25 @@ WantedBy=multi-user.target
 
 sudo systemctl start gunicorn.socket
 sudo systemctl enable gunicorn.socket   # create a soft link between symlink /etc/systemd/system/sockets.target.wants/gunicorn.socket → /etc/systemd/system/gunicorn.socket.
+## checking gunicorn socket file
+sudo systemctl status gunicorn.socket
+##your should recieve
+
+● gunicorn.socket - gunicorn socket
+     Loaded: loaded (/etc/systemd/system/gunicorn.socket; enabled; vendor preset: enabled)
+     Active: active (listening) since Mon 2022-04-18 17:53:25 UTC; 5s ago
+   Triggers: ● gunicorn.service
+     Listen: /run/gunicorn.sock (Stream)
+     CGroup: /system.slice/gunicorn.socket
+
+Apr 18 17:53:25 django systemd[1]: Listening on gunicorn socket.
+
+## Next, check for the existence of the gunicorn.sock file within the /run directory:
+file /run/gunicorn.sock
+Output
+/run/gunicorn.sock: socket
+
+
 
 # deactivate virtualenv
 
