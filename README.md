@@ -41,12 +41,12 @@ After=network.target
 [Service]
 User=ubuntu
 Group=www-data
-WorkingDirectory=/home/ubuntu/django_blog
-ExecStart=/home/ubantu/django_blog/env/bin/gunicorn \
+WorkingDirectory=/home/ubuntu/django_blog                   ### your manage.py path
+ExecStart=/home/ubuntu/django_blog/env/bin/gunicorn \       ### here your active virtualenv path
           --access-logfile - \
           --workers 3 \
           --bind unix:/run/gunicorn.sock \
-          nvnblog.wsgi:application
+          nvnblog.wsgi:application                         ### here setting.py or wsgi server path
 
 [Install]
 WantedBy=multi-user.target
@@ -54,6 +54,7 @@ WantedBy=multi-user.target
 
 sudo systemctl start gunicorn.socket
 sudo systemctl enable gunicorn.socket   # create a soft link between symlink /etc/systemd/system/sockets.target.wants/gunicorn.socket → /etc/systemd/system/gunicorn.socket.
+
 ## checking gunicorn socket file
 sudo systemctl status gunicorn.socket
 ##your should recieve
@@ -66,6 +67,9 @@ sudo systemctl status gunicorn.socket
      CGroup: /system.slice/gunicorn.socket
 
 Apr 18 17:53:25 django systemd[1]: Listening on gunicorn socket.
+### check gunicorn service file as well
+## before that run systemctl daemon-reload, systemctl restart gunicorn.service
+sudo ststemctl status gunicorn.service
 
 ## Next, check for the existence of the gunicorn.sock file within the /run directory:
 file /run/gunicorn.sock
@@ -78,41 +82,32 @@ Output
 
 # set up nginx
 cd /etc/nginx/site-available 
-and check any file is exist or not if exist delete it sudo rm -rf default
+and create one file 
 
 sudo nano /etc/nginx/site-available/blog
 
+server {
+    listen 80;
+    server_name server_domain_or_IP;
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        root /home/sammy/myprojectdir; ### your manage.py path
+    }
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/run/gunicorn.sock;
+    }
+}
+
+### now to create symbolic link to sites-enabled dir
+sudo ln -s /etc/nginx/sites-available/blog /etc/nginx/sites-enabled/
+
+## check nginx configuration
+sudo nginx -t
 
 
+### restart your nginx and gunicorn
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-######## sudo systemctl status nginx.service ###### for this i remove default file from /etc/nginx/sites-enabled  and sites-available ######
-######## sudo systemctl status gunicorn  #######
 
 
 
