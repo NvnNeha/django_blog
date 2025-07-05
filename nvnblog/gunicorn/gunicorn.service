@@ -9,7 +9,7 @@ WorkingDirectory=/home/ubuntu/nvnblog
 ExecStart=/home/ubuntu/nvnblog/env/bin/gunicorn \
           --access-logfile - \
           --workers 3 \
-          --bind 0.0.0.0:8000 \
+          --bind 0.0.0.0:80 \
           nvnblog.wsgi:application
 [Install]
 WantedBy=multi-user.target
