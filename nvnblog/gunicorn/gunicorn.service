@@ -5,8 +5,8 @@ After=network.target
 [Service]
 User=ubuntu
 Group=www-data
-WorkingDirectory=/home/ubuntu/blog_aws/nvnblog
-ExecStart=/home/ubuntu/projectenv/env/bin/gunicorn \
+WorkingDirectory=/home/ubuntu/nvnblog
+ExecStart=/home/ubuntu/projectenv/venv/bin/gunicorn \
           --access-logfile - \
           --workers 3 \
           --bind 0.0.0.0:80 \
