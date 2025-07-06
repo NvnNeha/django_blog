@@ -5,11 +5,11 @@ After=network.target
 [Service]
 User=ubuntu
 Group=www-data
-WorkingDirectory=/home/ubuntu/nvnblog
-ExecStart=/home/ubuntu/nvnblog/venv/bin/gunicorn \
+WorkingDirectory=/home/ubuntu/blog_aws/nvnblog
+ExecStart=/home/ubuntu/projectenv/env/bin/gunicorn \
           --access-logfile - \
           --workers 3 \
-          --bind 0.0.0.0:8000 \
+          --bind 0.0.0.0:80 \
           nvnblog.wsgi:application
 [Install]
 WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+server {
+    listen 80;
+    server_name naveenkumarsaini.click;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /staticfiles/ {
+        root /home/ubuntu/blog_aws/nvnblog;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/run/gunicorn.sock;
+    }
+}
