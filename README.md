@@ -1,7 +1,10 @@
 📝 Django Blog Deployment on EC2
+
+
 This is my first Django-based blog website!
 
 🌐 Features
+
 User registration and login
 
 Create, update, and delete blog posts
