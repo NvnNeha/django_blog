@@ -4,10 +4,6 @@ __pycache__/
 *.pyd
 *.pyo
 
-<<<<<<< HEAD
-
-=======
->>>>>>> d4395c28e9844f4547674cdee8fb7a7d3c66a0ed
 # Virtual environment
 venv/
 ../venv/
@@ -17,13 +13,13 @@ env/
 # Django-specific files
 *.log
 *.pot
-local_settings.py  # Or any other file holding sensitive local settings
+# local_settings.py  # Or any other file holding sensitive local settings
 db.sqlite3         # Local development database
 
 # Static files and media files (if collected/generated)
 /static/           # Collected static files
 /media/            # User-uploaded media files
-
+/staticfiles
 # IDE-specific files
 .idea/             # PyCharm
 .vscode/           # VS Code
