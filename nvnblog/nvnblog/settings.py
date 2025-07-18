@@ -10,8 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import os
-from pathlib import Path
-import os
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -28,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-2wx!2%7$yw5m#(0f7_81ppt&n+ni31_0uno(e1p9y6n$c@)i%s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
