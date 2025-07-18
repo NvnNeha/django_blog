@@ -1,26 +1,52 @@
-This is my first website with django, here you can create account and write blog, also you can update, delete your post, you can comment to the post if you are busy or not have time to read post so you can click read later button and see in stored posts all read later blog.
+📝 Django Blog Deployment on EC2
 
 
-How to deploy your django app on ec2
+This is my first Django-based blog website!
 
-#first update and install basic packages
+🌐 Features
+
+User registration and login
+
+Create, update, and delete blog posts
+
+Add comments to posts
+
+Save posts for later reading using "Read Later" button
+
+🚀 Deploy Django App on EC2
+Follow the steps below to deploy your Django app on an Ubuntu EC2 instance.
+
+1️⃣ Install System Dependencies
 sudo apt update
-sudo apt install python3-venv python3-dev python3-pip libpq-dev nginx    # check pip3 --version #libpq-dev is important
+sudo apt install python3-venv python3-dev python3-pip libpq-dev nginx
+✅ libpq-dev is important for PostgreSQL support
+✅ Make sure pip3 --version works
 
+2️⃣ Clone Your Django Repository
 git clone https://yourgitrepolink
-cd your project folder
+cd your-project-folder
 
-#create and activate virtualenv either python3 or virtualenv
+3️⃣ Set Up Virtual Environment
+mkdir projectenv
+cd projectenv
+python3 -m venv env
+source env/bin/activate
 pip3 install -r requirements.txt
 
-# check python manage.py runserver 0.0.0.0:8000
-# make sure you have run python manage.py makemigrations, migrate, collectstatic
+Run your project to confirm it works:
+python manage.py makemigrations
+python manage.py migrate
+python manage.py collectstatic
+python manage.py runserver 0.0.0.0:8000
 
-# now install in virtualenv gunicorn, it is a wsgi server that server your website
+
+4️⃣ Install & Configure Gunicorn
+Install Gunicorn inside the virtual environment:
 pip install gunicorn
-sudo nano /etc/systemd/system/gunicorn.socket 
 
-# add content in it 
+Create the Gunicorn socket file:
+sudo nano /etc/systemd/system/gunicorn.socket
+Add:
 [Unit]
 Description=gunicorn socket
 
@@ -30,9 +56,9 @@ ListenStream=/run/gunicorn.sock
 [Install]
 WantedBy=sockets.target
 
-
+Create the Gunicorn service file:
 sudo nano /etc/systemd/system/gunicorn.service
-# add content in it
+
 [Unit]
 Description=gunicorn daemon
 Requires=gunicorn.socket
@@ -41,57 +67,44 @@ After=network.target
 [Service]
 User=ubuntu
 Group=www-data
-WorkingDirectory=/home/ubuntu/django_blog                   ### your manage.py path
-ExecStart=/home/ubuntu/django_blog/env/bin/gunicorn \       ### here your active virtualenv path
+WorkingDirectory=/home/ubuntu/django_blog        # path to your project
+ExecStart=/home/ubuntu/django_blog/env/bin/gunicorn \ 
           --access-logfile - \
           --workers 3 \
           --bind unix:/run/gunicorn.sock \
-          nvnblog.wsgi:application                         ### here setting.py or wsgi server path
+          nvnblog.wsgi:application                # your wsgi path
 
 [Install]
 WantedBy=multi-user.target
 
+5️⃣ Enable and Start Gunicorn
 
 sudo systemctl start gunicorn.socket
-sudo systemctl enable gunicorn.socket   # create a soft link between symlink /etc/systemd/system/sockets.target.wants/gunicorn.socket → /etc/systemd/system/gunicorn.socket.
+sudo systemctl enable gunicorn.socket
 
-## checking gunicorn socket file
-sudo systemctl status gunicorn.socket
-##your should recieve
+sudo systemctl start gunicorn.service
+sudo systemctl enable gunicorn.service
 
-● gunicorn.socket - gunicorn socket
-     Loaded: loaded (/etc/systemd/system/gunicorn.socket; enabled; vendor preset: enabled)
-     Active: active (listening) since Mon 2022-04-18 17:53:25 UTC; 5s ago
-   Triggers: ● gunicorn.service
-     Listen: /run/gunicorn.sock (Stream)
-     CGroup: /system.slice/gunicorn.socket
+sudo systemctl daemon-reload
 
-Apr 18 17:53:25 django systemd[1]: Listening on gunicorn socket.
-### check gunicorn service file as well
-## before that run systemctl daemon-reload, systemctl restart gunicorn.service
-sudo ststemctl status gunicorn.service
+sudo systemctl restart gunicorn.service
+sudo systemctl restart gunicorn.socket
 
-## Next, check for the existence of the gunicorn.sock file within the /run directory:
-file /run/gunicorn.sock
-Output
-/run/gunicorn.sock: socket
+sudo chmod -a -G www-data ubuntu
 
 
 
-# deactivate virtualenv
+6️⃣ Configure NGINX
+Create an NGINX configuration file:
 
-# set up nginx
-cd /etc/nginx/site-available 
-and create one file 
-
-sudo nano /etc/nginx/site-available/blog
-
+sudo nano /etc/nginx/sites-available/blog
+Add:
 server {
     listen 80;
-    server_name server_domain_or_IP;
+    server_name your_domain_or_IP;
     location = /favicon.ico { access_log off; log_not_found off; }
     location /static/ {
-        root /home/sammy/myprojectdir; ### your manage.py path
+        root /home/ubuntu/django_blog;  # static path
     }
     location / {
         include proxy_params;
@@ -99,14 +112,46 @@ server {
     }
 }
 
-### now to create symbolic link to sites-enabled dir
+
 sudo ln -s /etc/nginx/sites-available/blog /etc/nginx/sites-enabled/
 
-## check nginx configuration
 sudo nginx -t
+sudo systemctl restart nginx
 
 
-### restart your nginx and gunicorn
+✅ Done!
+Now your Django blog is live on your EC2 instance via Gunicorn and NGINX!
+
+📌 Notes
+Always deactivate your virtual environment after finishing:
+deactivate
+Make sure your security group allows port 80 (HTTP).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
