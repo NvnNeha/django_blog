@@ -1,4 +1,6 @@
- const menulist=document.getElementById( "navbar-default" )
+
+const menulist=document.getElementById( "navbar-default" )
+
         function toggleMenu(){
                 menulist.classList.remove("hidden")
         }
