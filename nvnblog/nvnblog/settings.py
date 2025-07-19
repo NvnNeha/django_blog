@@ -9,13 +9,12 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-import os
+
 from pathlib import Path
 import os
 from dotenv import load_dotenv
 load_dotenv()
 
-from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,10 +27,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-2wx!2%7$yw5m#(0f7_81ppt&n+ni31_0uno(e1p9y6n$c@)i%s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://naveenkumarsaini.click",  # your custom domain
+    "https://django-alb-1728931504.ap-south-1.elb.amazonaws.com",     # optional if you're testing with ALB DNS directly
+]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Force HTTPS and secure cookies
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
 
 # Application definition
 
@@ -177,3 +187,4 @@ default_path = settings.DEFAULT_FILE_STORAGE  # 'custom_storages.MediaFileStorag
 module, class_name = default_path.rsplit('.', 1)
 DefaultStorage = getattr(import_module(module), class_name)
 file_storage.default_storage = DefaultStorage()
+
