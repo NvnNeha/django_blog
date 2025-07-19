@@ -187,4 +187,3 @@ default_path = settings.DEFAULT_FILE_STORAGE  # 'custom_storages.MediaFileStorag
 module, class_name = default_path.rsplit('.', 1)
 DefaultStorage = getattr(import_module(module), class_name)
 file_storage.default_storage = DefaultStorage()
-
