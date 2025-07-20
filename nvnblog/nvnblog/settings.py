@@ -148,6 +148,7 @@ STATIC_ROOT = BASE_DIR/"staticfiles"
 # STATIC_URL = 'static/'
 STATICFILES_DIRS=[BASE_DIR/"static"]
 MEDIA_ROOT= BASE_DIR/"uploads"
+
 # MEDIA_URL= "/uploads/"
 # configure aws s3
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
@@ -180,14 +181,29 @@ from importlib import import_module
 from django.core.files import storage as file_storage
 from django.contrib.staticfiles import storage as static_storage
 
-# --- STATICFILES_STORAGE ---
-static_path = settings.STATICFILES_STORAGE  # 'custom_storages.StaticFileStorage'
-module, class_name = static_path.rsplit('.', 1)
-StaticStorage = getattr(import_module(module), class_name)
-static_storage.staticfiles_storage = StaticStorage()
+# # --- STATICFILES_STORAGE ---
+# static_path = settings.STATICFILES_STORAGE  # 'custom_storages.StaticFileStorage'
+# module, class_name = static_path.rsplit('.', 1)
+# StaticStorage = getattr(import_module(module), class_name)
+# static_storage.staticfiles_storage = StaticStorage()
 
-# --- DEFAULT_FILE_STORAGE (optional) ---
-default_path = settings.DEFAULT_FILE_STORAGE  # 'custom_storages.MediaFileStorage'
-module, class_name = default_path.rsplit('.', 1)
-DefaultStorage = getattr(import_module(module), class_name)
-file_storage.default_storage = DefaultStorage()
+# # --- DEFAULT_FILE_STORAGE (optional) ---
+# default_path = settings.DEFAULT_FILE_STORAGE  # 'custom_storages.MediaFileStorage'
+# module, class_name = default_path.rsplit('.', 1)
+# DefaultStorage = getattr(import_module(module), class_name)
+# file_storage.default_storage = DefaultStorage()
+
+# settings.py  (Django 5.2)
+
+STORAGES = {
+    # Tell Django to use S3 for all user‑uploaded files
+    "default": {
+        "BACKEND": "custom_storages.MediaFileStorage",
+    },
+    # Static files (optional – if you want them on S3 too)
+    "staticfiles": {
+        "BACKEND": "custom_storages.StaticFileStorage",
+    },
+}
+
+# Do NOT also declare DEFAULT_FILE_STORAGE; it’s redundant.
