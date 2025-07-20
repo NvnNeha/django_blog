@@ -33,15 +33,19 @@ ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
     "https://naveenkumarsaini.click",  # your custom domain
-    "https://django-alb-1728931504.ap-south-1.elb.amazonaws.com",     # optional if you're testing with ALB DNS directly
+    # "https://django-alb-1728931504.ap-south-1.elb.amazonaws.com",     # optional if you're testing with ALB DNS directly
 ]
 
+# Tell Django the original protocol was HTTPS, even though it's HTTP internally
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# Force HTTPS and secure cookies
+# Secure Cookies – keep these True, since end-user uses HTTPS
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
+
+# SECURE_SSL_REDIRECT:
+# ✅ Only set True if the app can detect HTTPS via the X-Forwarded-Proto header
+# SECURE_SSL_REDIRECT = True
 
 # Application definition
 
